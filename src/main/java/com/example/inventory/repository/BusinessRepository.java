@@ -1,6 +1,6 @@
 package com.example.inventory.repository;
 
-import com.example.inventory.model.User;
+import com.example.inventory.model.Business;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,12 +15,17 @@ import java.util.List;
             this.jdbcTemplate = jdbcTemplate;
         }
 
-        public HttpStatus addUser(User user) {
-            System.out.println(user.toString());
-            String sql = "INSERT INTO users (name, surname, email, password, phone_no) VALUES (?, ?, ?, ?, ?)";
+        public HttpStatus addBusiness(Business business) {
+            System.out.println(business.toString());
+            String sql = "INSERT INTO business (business_id,name,owner_id, location, contact_no) VALUES (?, ?, ?, ?, ?)";
             try {
-                jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getPhoneNo());
-                return HttpStatus.OK;
+                jdbcTemplate.update(sql,
+                        business.getBusiness_id(),
+                        business.getName(),
+                        business.getOwner_id(),
+                        business.getLocation(),
+                        business.getContact_no());
+            return HttpStatus.OK;
             } catch (DataAccessException e) {
                 return HttpStatus.ALREADY_REPORTED;
 
@@ -28,17 +33,16 @@ import java.util.List;
 
         }
 
-        public List<User> getAllUsers() {
-            String sql = "SELECT * FROM users";
+        public List<Business> getAllBusiness() {
+            String sql = "SELECT * FROM Business";
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
-                User user = new User();
-                user.setUserId(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setSurname(rs.getString("surname"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setPhoneNo(rs.getString("phone_no"));
-                return user;
+                Business business = new Business();
+                business.setBusiness_id(rs.getInt("business_id"));
+                business.setName(rs.getString("name"));
+                business.setOwner_id(rs.getString("owner_id"));
+                business.setLocation(rs.getString("email"));
+                business.setContact_no(rs.getString("password"));
+                return business;
             });
         }
     }
