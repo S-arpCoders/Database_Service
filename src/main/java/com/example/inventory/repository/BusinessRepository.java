@@ -40,8 +40,8 @@ import java.util.List;
                 business.setBusiness_id(rs.getInt("business_id"));
                 business.setName(rs.getString("name"));
                 business.setOwner_id(rs.getString("owner_id"));
-                business.setLocation(rs.getString("email"));
-                business.setContact_no(rs.getString("password"));
+                business.setLocation(rs.getString("location"));
+                business.setContact_no(rs.getString("contact_no"));
                 return business;
             });
         }
